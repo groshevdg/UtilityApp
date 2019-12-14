@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/add_data">
+        <CheckBoxPreference
+            android:key="rubbish_key"
+            android:title="@string/include_rubbish"
+            android:summary="@string/rubbish_summary"
+            android:icon="@drawable/ic_rubbish"/>
+
+        <CheckBoxPreference
+            android:key="water_key"
+            android:title="@string/include_internet"
+            android:summary="@string/internet_summary"
+            android:icon="@drawable/ic_internet"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/set_cost">
+
+        <EditTextPreference
+            android:key="cost_water_cold"
+            android:title="@string/water_cold"
+            android:icon="@drawable/ic_water"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+        <EditTextPreference
+            android:key="cost_water_warm"
+            android:title="@string/water_warm"
+            android:icon="@drawable/ic_water_warm"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+        <EditTextPreference
+            android:key="cost_sewerage"
+            android:title="@string/sewerage_title"
+            android:icon="@drawable/ic_sewerage"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+        <EditTextPreference
+            android:key="cost_gas"
+            android:title="@string/gas"
+            android:icon="@drawable/ic_gas"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+        <EditTextPreference
+            android:key="cost_light_day"
+            android:title="@string/cost_light_day"
+            android:icon="@drawable/ic_day"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+        <EditTextPreference
+            android:key="cost_light_night"
+            android:title="@string/cost_light_night"
+            android:icon="@drawable/ic_night"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+        <EditTextPreference
+            android:key="cost_rubbish"
+            android:title="@string/rubbish_title"
+            android:icon="@drawable/ic_rubbish"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+        <EditTextPreference android:key="cost_internet"
+            android:title="@string/internet"
+            android:icon="@drawable/ic_internet"
+            android:dialogLayout="@layout/select_cost_dialog" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/water">
+        <CheckBoxPreference
+            android:key="water_splitted"
+            android:title="@string/split_watter_title"
+            android:summary="@string/split_watter_sum"
+            android:icon="@drawable/ic_water"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/database">
+
+        <Preference
+            android:title="Delete database"
+            android:summary="delete all data from phone"
+            android:key="delete_data"
+            android:icon="@drawable/ic_delete"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

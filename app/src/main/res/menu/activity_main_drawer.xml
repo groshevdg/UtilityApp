@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/select_object"
+        android:title="@string/select_object"
+        android:icon="@drawable/ic_home"/>
+
+    <item android:title="@string/title_count">
+        <menu>
+
+            <item
+                android:id="@+id/water"
+                android:title="@string/water"
+                android:icon="@drawable/ic_water" />
+
+            <item
+                android:id="@+id/gas"
+                android:title="@string/gas"
+                android:icon="@drawable/ic_gas"/>
+
+            <item
+                android:id="@+id/light"
+                android:title="@string/light"
+                android:icon="@drawable/ic_light"/>
+
+        </menu>
+    </item>
+
+    <item android:title="@string/data">
+        <menu>
+            <item android:id="@+id/show_data"
+                android:title="@string/show_data"
+                android:icon="@drawable/ic_data"/>
+        </menu>
+    </item>
+
+
+</menu>
