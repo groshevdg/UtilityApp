@@ -21,7 +21,6 @@ class UtilityContract {
             val OBJECT = "object"
             val COLD = "cold"
             val WARM = "warm"
-            val SEWERAGE = "sewerage"
             val MONTH = "month"
             val YEAR = "year"
             val SUM = "sum"

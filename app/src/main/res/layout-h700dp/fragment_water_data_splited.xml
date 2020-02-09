@@ -6,41 +6,41 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="320dp"
-        android:layout_height="430dp"
+        android:layout_height="520dp"
         android:layout_gravity="center"
-        android:layout_marginTop="90dp">
+        android:layout_marginTop="70dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/last_value"
-            android:layout_gravity="center_horizontal"
+            android:text="@string/costs"
+            android:gravity="center"
             android:textSize="18sp"
             android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/warm_water"
-            android:textSize="18sp"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="40dp"
-            android:textSize="18sp"
-            tools:text="28457 куб(ов)"
-            android:id="@+id/last_warm_water_value"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/cold_water"
             android:textSize="18sp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="40dp"
+            android:textSize="18sp"
+            tools:text="28457 куб(ов)"
+            android:id="@+id/cost_of_cold_water"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/warm_water"
+            android:textSize="18sp"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin" />
 
@@ -52,7 +52,7 @@
             android:layout_marginTop="70dp"
             android:textSize="18sp"
             tools:text="28457 куб(ов)"
-            android:id="@+id/last_cold_water_value" />
+            android:id="@+id/cost_of_warm_water"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +70,51 @@
             android:layout_marginTop="100dp"
             android:textSize="18sp"
             tools:text="28457 куб(ов)"
-            android:id="@+id/last_sewerage_value" />
+            android:id="@+id/cost_of_sewerage"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="130dp"
+            android:text="@string/last_value"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/last_cold_water_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="160dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textSize="18sp"
+            tools:text="28457 куб(ов)" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="160dp"
+            android:text="@string/cold_water"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/last_warm_water_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="190dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textSize="18sp"
+            tools:text="28457 куб(ов)" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="190dp"
+            android:text="@string/warm_water"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,13 +122,24 @@
             android:text="@string/new_values"
             android:layout_gravity="center_horizontal"
             android:textSize="18sp"
-            android:layout_marginTop="130dp" />
+            android:layout_marginTop="220dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="160dp">
+            android:layout_marginTop="250dp">
+
+            <EditText
+                android:id="@+id/cold_water_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/cold_hint"
+                android:inputType="numberDecimal" />
 
             <EditText
                 android:id="@+id/warm_water_et"
@@ -97,34 +152,13 @@
                 android:hint="@string/warm_hint"
                 android:inputType="numberDecimal" />
 
-            <EditText
-                android:id="@+id/cold_water_et"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/cold_hint"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/sewerage_et"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/sewerage_hint"
-                android:inputType="numberDecimal" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="210dp">
+            android:layout_marginTop="300dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -140,7 +174,6 @@
                 android:entries="@array/month"
                 android:gravity="center"
                 android:id="@+id/months"/>
-
             <Spinner
                 android:layout_width="0dp"
                 android:layout_weight="2"
@@ -159,57 +192,61 @@
             android:text="@string/to_pay"
             android:layout_gravity="center_horizontal"
             android:textSize="18sp"
-            android:layout_marginTop="240dp" />
+            android:layout_marginTop="330dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/water_pay"
             android:textSize="18sp"
-            android:layout_marginTop="270dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="360dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textSize="18sp"
+            tools:text="15"
+            android:layout_marginTop="360dp"
+            android:id="@+id/water_sum"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sewerage_title"
             android:textSize="18sp"
-            android:layout_marginTop="300dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="390dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textSize="18sp"
+            tools:text="15"
+            android:layout_marginTop="390dp"
+            android:id="@+id/sum_of_sewerage"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/summary"
             android:textSize="18sp"
-            android:layout_marginTop="330dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="420dp" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginTop="270dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_gravity="end"
-            android:id="@+id/water_sum"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="420dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_gravity="end"
-            android:id="@+id/sewerage_sum"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginTop="330dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_gravity="end"
+            tools:text="15"
             android:id="@+id/sum_of_cheque"/>
 
         <Button
@@ -224,7 +261,6 @@
             android:background="@drawable/custom_button"
             android:enabled="false"/>
 
-
         <Button
             android:id="@+id/edit_btn"
             android:layout_width="wrap_content"
@@ -234,7 +270,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             style="@style/custom_button"
-            android:background="@drawable/custom_button"/>
+            android:background="@drawable/custom_button" />
 
     </androidx.cardview.widget.CardView>
 </LinearLayout>

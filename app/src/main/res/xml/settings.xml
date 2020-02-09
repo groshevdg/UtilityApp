@@ -10,10 +10,16 @@
             android:icon="@drawable/ic_rubbish"/>
 
         <CheckBoxPreference
-            android:key="water_key"
+            android:key="internet_key"
             android:title="@string/include_internet"
             android:summary="@string/internet_summary"
             android:icon="@drawable/ic_internet"/>
+
+        <CheckBoxPreference
+            android:key="sewerage_key"
+            android:title="@string/include_sew"
+            android:summary="@string/include_sew_sum"
+            android:icon="@drawable/ic_sewerage"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/set_cost">
@@ -32,7 +38,7 @@
 
         <EditTextPreference
             android:key="cost_sewerage"
-            android:title="@string/sewerage_title"
+            android:title="@string/sewerage_hint"
             android:icon="@drawable/ic_sewerage"
             android:dialogLayout="@layout/select_cost_dialog" />
 
@@ -79,8 +85,8 @@
     <PreferenceCategory android:title="@string/database">
 
         <Preference
-            android:title="Delete database"
-            android:summary="delete all data from phone"
+            android:title="@string/delete_database"
+            android:summary="@string/delete_database_sum"
             android:key="delete_data"
             android:icon="@drawable/ic_delete"/>
     </PreferenceCategory>

@@ -1,2 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+    <resources>
+        <string name="select_object">Выбор объекта</string>
+        <string name="internet">Интернет</string>
+        <string name="title_choose_object">Выберите объект</string>
+        <string name="app_name">Utility Pay Helper</string>
+        <string name="title_home">Изменить объект</string>
+        <string name="select_name_for_object">Укажите имя для объекта, который вы создаете</string>
+        <string name="write_name_hint">Укажите имя для объекта</string>
+        <string name="create">Создать</string>
+        <string name="cancel">Отмена</string>
+        <string name="create_object_btn">Создать объект</string>
+        <string name="delete_btn_content_description">Удалить этот объект</string>
+        <string name="empty_data">Нет созданных объектов</string>
+        <string name="title_accept_data_deleting">Вы уверенны, что хотите удалить этот объект?</string>
+        <string name="yes_answer">Да</string>
+        <string name="settings">Настройки</string>
+        <string name="split_watter_title">Разделить воду</string>
+        <string name="split_watter_sum">Разделить воду на две части: холодную и горячую</string>
+        <string name="rubbish_title">Мусор</string>
+        <string name="internet_title">Интернет</string>
+        <string name="rubbish_summary">Включить мусор в общий чек</string>
+        <string name="internet_summary">Включить интернет в общий чек</string>
+        <string name="water">Вода</string>
+        <string name="gas">Газ</string>
+        <string name="light">Свет</string>
+        <string name="last_value">Прошлые значения</string>
+        <string name="warm_water">Теплая вода:</string>
+        <string name="cold_water">Холодная вода:</string>
+        <string name="sewerage_title">Канализация:</string>
+        <string name="new_values">Новые значения</string>
+        <string name="warm_hint">Теплая</string>
+        <string name="cold_hint">Холодная</string>
+        <string name="sewerage_hint">Канализация</string>
+        <string name="pay_for">Оплата за</string>
+        <string name="to_pay">К оплате</string>
+        <string name="water_pay">Вода:</string>
+        <string name="summary">Суммарно:</string>
+        <string name="save">Сохранить</string>
+        <string name="edit_last">Изменить</string>
+        <string name="water_title">Вода:</string>
+        <string name="water_hint">Вода</string>
+        <string name="nav_header_desc">Descrioption of header</string>
+        <string name="nav_header_title">Header title</string>
+        <string name="nav_header_subtitle">Header subtitle</string>
+        <string name="action_settings">Настройки</string>
+        <string name="menu_home">Домой</string>
+        <string name="gas_title">Газ:</string>
+        <string name="day">День:</string>
+        <string name="night">Ночь:</string>
+        <string name="day_hint">День</string>
+        <string name="night_hint">Ночь</string>
+        <string name="object_isnot_selected">Объект не выбран</string>
+        <string name="parametrs">Параметры</string>
+        <string name="data">Данные</string>
+        <string name="show_data">Просмотр данных</string>
+        <string name="include_rubbish">Учесть мусор</string>
+        <string name="include_internet">Учесть интернет</string>
+        <string name="add_data">Дополнительные данные</string>
+        <string name="database">База данных</string>
+        <string name="cost_utility">Стоимость элементов коммунальных услуг</string>
+        <string name="set_cost">Установить стоимость</string>
+        <string name="set_cost_sum">Установить стоимость для всех элементов</string>
+        <string name="cost_water">Стоимость воды</string>
+        <string name="costs">Стоимость</string>
+        <string name="cost_light_day">Свет (день)</string>
+        <string name="cost_light_night">Свет (ночь)</string>
+        <string name="water_cold">Вода (холодная, если разделено)</string>
+        <string name="water_warm">Теплая вода</string>
+        <string name="unaccessible">Недоступно</string>
+        <string name="object_is_selected">Выбран объект</string>
+        <string name="done">Выполнить</string>
+        <string name="light_hint">Свет:</string>
+        <string name="light_day_hint">Свет (день)</string>
+        <string name="light_night">Свет (ночь)</string>
+        <string name="selected_obj_is">Выбран объект:</string>
+        <string name="correct_data_title">Корректность данных</string>
+        <string name="correct_data_text">Проверьте корректность вводимых данных. Все верно?</string>
+        <string name="data_saved">Данные сохранены</string>
+        <string name="error_data_saved">Ошибка! Показания уже сохранены для этого месяца.</string>
+        <string name="value_less">Меньше нуля</string>
+        <string name="edit_data">Изменить даные</string>
+        <string name="edit_gas_data">Изменить последние данные по газу</string>
+        <string name="edit_light_data">Изменить последние данные по свету</string>
+        <string name="edit_water_data">Изменить последние данные по воде</string>
+        <string name="apply">Принять</string>
+        <string name="data_changed">Данные изменены</string>
+        <string name="delete_database">Удалить базу данных</string>
+        <string name="delete_database_sum">Удалить все данные с телефона</string>
+        <string name="setting">Установка</string>
+        <string name="start">начального</string>
+        <string name="value">значения</string>
+
+        <string name="include_sew">Учесть канализацию</string>
+        <string name="include_sew_sum">Включить канализацию в чек для воды</string>
+        <string name="not_include">Не включено</string>
+
+    <string-array name="month">
+            <item>Январь</item>
+            <item>Февраль</item>
+            <item>Март</item>
+            <item>Апрель</item>
+            <item>Май</item>
+            <item>Июнь</item>
+            <item>Июль</item>
+            <item>Август</item>
+            <item>Сентябрь</item>
+            <item>Октябрь</item>
+            <item>Ноябрь</item>
+            <item>Декабрь</item>
+        </string-array>
+
+        <string-array name="years">
+            <item>19</item>
+            <item>20</item>
+            <item>21</item>
+            <item>22</item>
+            <item>23</item>
+            <item>24</item>
+            <item>25</item>
+            <item>26</item>
+            <item>27</item>
+            <item>28</item>
+            <item>29</item>
+            <item>30</item>
+        </string-array>
+</resources>

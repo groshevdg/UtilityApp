@@ -6,14 +6,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="320dp"
-        android:layout_height="430dp"
+        android:layout_height="450dp"
         android:layout_gravity="center"
         android:layout_marginTop="90dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/last_value"
+            android:text="@string/costs"
             android:layout_gravity="center_horizontal"
             android:textSize="18sp"
             android:layout_marginTop="10dp" />
@@ -33,7 +33,8 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="40dp"
             android:textSize="18sp"
-            tools:text="28457 куб(ов)" />
+            tools:text="28457 куб(ов)"
+            android:id="@+id/cost_day_light"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +51,52 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="70dp"
             android:textSize="18sp"
-            tools:text="28457 куб(ов)" />
+            tools:text="28457 куб(ов)"
+            android:id="@+id/cost_night_light"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_value"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:layout_marginTop="100dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day"
+            android:textSize="18sp"
+            android:layout_marginTop="130dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="130dp"
+            android:textSize="18sp"
+            tools:text="28457 куб(ов)"
+            android:id="@+id/last_day_light_text_view"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/night"
+            android:textSize="18sp"
+            android:layout_marginTop="160dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="160dp"
+            android:textSize="18sp"
+            tools:text="28457 куб(ов)"
+            android:id="@+id/last_night_light_text_view"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,16 +104,16 @@
             android:text="@string/new_values"
             android:layout_gravity="center_horizontal"
             android:textSize="18sp"
-            android:layout_marginTop="100dp" />
+            android:layout_marginTop="190dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="130dp">
+            android:layout_marginTop="220dp">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/new_day_light_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -75,10 +121,10 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/day_hint"
-                android:inputType="textPersonName" />
+                android:inputType="numberDecimal" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/new_night_light_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -86,14 +132,14 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/night_hint"
-                android:inputType="textPersonName" />
+                android:inputType="numberDecimal" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="185dp">
+            android:layout_marginTop="270dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,14 +153,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:entries="@array/month"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:id="@+id/light_months_spinner"/>
+
             <Spinner
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:entries="@array/years"
                 android:gravity="center"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:id="@+id/years_light_spinner"/>
 
         </LinearLayout>
 
@@ -125,15 +174,15 @@
             android:text="@string/to_pay"
             android:layout_gravity="center_horizontal"
             android:textSize="18sp"
-            android:layout_marginTop="220dp" />
+            android:layout_marginTop="300dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/day"
+            android:text="@string/light_hint"
             android:textSize="18sp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="250dp" />
+            android:layout_marginTop="330dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -142,62 +191,23 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textSize="18sp"
             tools:text="15"
-            android:layout_marginTop="250dp"/>
-
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/night"
-            android:textSize="18sp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="280dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="280dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:textSize="18sp"
-            tools:text="15" />
-
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/summary"
-            android:textSize="18sp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="310dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="310dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:textSize="18sp"
-            tools:text="15" />
+            android:layout_marginTop="330dp"
+            android:id="@+id/light_to_pay_text_view"/>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/save_light_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save"
+            android:text="@string/unaccessible"
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             style="@style/custom_button"
-            android:background="@drawable/custom_button"/>
+            android:background="@drawable/custom_button"
+            android:enabled="false"/>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/edit_light_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/edit_last"

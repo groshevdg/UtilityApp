@@ -1,21 +1,34 @@
 package ru.groshevdg.utilityhelper.ui.show_data
 
 import android.content.Context
-import android.database.Cursor
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import ru.groshevdg.utilityhelper.R
 import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract.*
+import ru.groshevdg.utilityhelper.selected_object
 import java.lang.StringBuilder
 
-class FragmentShowData : Fragment() {
 
-    private lateinit var cursor: Cursor
+class FragmentShowData : Fragment(), AdapterView.OnItemSelectedListener {
+    private lateinit var preferences: SharedPreferences
+    private var internet = 0.0
+    private var rubbish = 0.0
+    private var isInternetInclude = false
+    private var isRubbishInclude = false
+
+    private lateinit var monthSpinner: Spinner
+    private lateinit var  yearSpinner: Spinner
+    private lateinit var textView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,53 +37,442 @@ class FragmentShowData : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_show_data, null)
 
-        val textView = view.findViewById<TextView>(R.id.data_text_view)
-        val text = showDatabase(context!!)
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+        monthSpinner = view.findViewById(R.id.select_month)
+        monthSpinner.onItemSelectedListener = this
+        yearSpinner = view.findViewById(R.id.select_year)
+        yearSpinner.onItemSelectedListener = this
+
+        isInternetInclude = preferences.getBoolean("internet_key", false)
+        isRubbishInclude = preferences.getBoolean("rubbish_key", false)
+
+        if (isInternetInclude) {
+            internet = preferences.getString("cost_internet", "0.0")!!.toDouble()
+        }
+
+        if (isRubbishInclude) {
+            rubbish = preferences.getString("cost_rubbish", "0.0")!!.toDouble()
+        }
+
+        textView = view.findViewById(R.id.data_text_view)
+        val text = showDatabase(context!!, monthSpinner.selectedItemPosition, yearSpinner.selectedItem.toString())
 
         textView.text = text
         return view
     }
 
-    private fun showDatabase(context: Context) : String{
+    private fun showDatabase(context: Context, month: Int, year: String): String {
         val db = DBHelper(context).readableDatabase
+        val a = 1;
 
-        val projection: Array<String> = arrayOf(WaterData._ID, WaterData.OBJECT, WaterData.COLD,
-            WaterData.WARM, WaterData.SEWERAGE, WaterData.MONTH, WaterData.YEAR, WaterData.SUM)
+        val listOFColdWater: MutableList<String> = mutableListOf()
+        val listOFWarmWater: MutableList<String> = mutableListOf()
+        val listOFWaterSum: MutableList<String> = mutableListOf()
+        val listOFWaterMonth: MutableList<String> = mutableListOf()
+        val listOFWaterYear: MutableList<String> = mutableListOf()
+
+        val listOFGasValues: MutableList<String> = mutableListOf()
+        val listOFGasSum: MutableList<String> = mutableListOf()
+        val listOFGasMonth: MutableList<String> = mutableListOf()
+        val listOFGasYear: MutableList<String> = mutableListOf()
+
+        val listOfDayLight: MutableList<String> = mutableListOf()
+        val listOfNightLight: MutableList<String> = mutableListOf()
+        val listOfLightSum: MutableList<String> = mutableListOf()
+        val listOfLightMonth: MutableList<String> = mutableListOf()
+        val listOfLightYear: MutableList<String> = mutableListOf()
+
+        val projectionWater: Array<String> = arrayOf(WaterData.COLD,
+            WaterData.WARM, WaterData.SUM, WaterData.MONTH, WaterData.YEAR)
         var string: String
 
-        try {
-            cursor = db.query(WaterData.TABLE_NAME, projection, null,
-                null, null, null, null)
+        when(month) {
+            0 -> {
+                val cursorWater = db.query(
+                    WaterData.TABLE_NAME, projectionWater, "${WaterData.OBJECT} = ? AND ${WaterData.YEAR} = ?",
+                    arrayOf(selected_object, year), null, null, null
+                )
 
-            val idIndex = cursor.getColumnIndex(WaterData._ID)
-            val objIndex = cursor.getColumnIndex(WaterData.OBJECT)
-            val coldIndex = cursor.getColumnIndex(WaterData.COLD)
-            val warmIndex = cursor.getColumnIndex(WaterData.WARM)
-            val sewIndex = cursor.getColumnIndex(WaterData.SEWERAGE)
-            val monthIndex = cursor.getColumnIndex(WaterData.MONTH)
-            val yearIndex = cursor.getColumnIndex(WaterData.YEAR)
-            val sumIndex = cursor.getColumnIndex(WaterData.SUM)
+                val projectionGas = arrayOf(GasData.VALUE, GasData.SUM, GasData.MONTH, GasData.YEAR)
+                val cursorGas = db.query(GasData.TABLE_NAME, projectionGas, "${GasData.OBJECT} = ? " +
+                        "AND ${GasData.YEAR} = ?",
+                    arrayOf(selected_object, year), null, null, null)
 
-            val builder = StringBuilder()
-            builder.append("Id ._. Object ._. Cold ._. Warm ._. Sewer ._. Month ._. Year ._. Sum\n")
+                val projectionLight = arrayOf(LightData.DAY, LightData.NIGHT, LightData.SUM, LightData.MONTH, LightData.YEAR)
+                val cursorLight = db.query(LightData.TABLE_NAME, projectionLight, "${LightData.OBJECT} = ? " +
+                        "AND ${LightData.YEAR} = ?",
+                    arrayOf(selected_object, year), null, null, null)
 
-            while (cursor.moveToNext()) {
-                val id = cursor.getString(idIndex)
-                val obj = cursor.getString(objIndex)
-                val cold = cursor.getString(coldIndex)
-                val warm = cursor.getString(warmIndex)
-                val sewerage = cursor.getString(sewIndex)
-                val month = cursor.getString(monthIndex)
-                val year = cursor.getString(yearIndex)
-                val sum = cursor.getString(sumIndex)
+                val coldIndex = cursorWater.getColumnIndex(WaterData.COLD)
+                val warmIndex = cursorWater.getColumnIndex(WaterData.WARM)
+                val waterSumIndex = cursorWater.getColumnIndex(WaterData.SUM)
+                val waterMonthIndex = cursorWater.getColumnIndex(WaterData.MONTH)
+                val waterYearIndex = cursorWater.getColumnIndex(WaterData.YEAR)
 
-                builder.append("${id} ${obj} ${cold} ${warm} ${sewerage} ${month} ${year} ${sum}\n")
+                val gasIndex = cursorGas.getColumnIndex(GasData.VALUE)
+                val gasSumIndex = cursorGas.getColumnIndex(GasData.SUM)
+                val gasMonthIndex = cursorGas.getColumnIndex(GasData.MONTH)
+                val gasYearIndex = cursorGas.getColumnIndex(GasData.YEAR)
+
+                val dayIndex = cursorLight.getColumnIndex(LightData.DAY)
+                val nightIndex = cursorLight.getColumnIndex(LightData.NIGHT)
+                val lightSumIndex = cursorLight.getColumnIndex(LightData.SUM)
+                val lightMonthIndex = cursorLight.getColumnIndex(LightData.MONTH)
+                val lightYearIndex = cursorLight.getColumnIndex(LightData.YEAR)
+
+                while (cursorWater.moveToNext()) {
+                    listOFColdWater.add(cursorWater.getString(coldIndex))
+                    listOFWarmWater.add(cursorWater.getString(warmIndex))
+                    listOFWaterSum.add(cursorWater.getString(waterSumIndex))
+                    listOFWaterMonth.add(cursorWater.getString(waterMonthIndex))
+                    listOFWaterYear.add(cursorWater.getString(waterYearIndex))
+                }
+
+                while (cursorGas.moveToNext()) {
+                    listOFGasValues.add(cursorGas.getString(gasIndex))
+                    listOFGasSum.add(cursorGas.getString(gasSumIndex))
+                    listOFGasMonth.add(cursorGas.getString(gasMonthIndex))
+                    listOFGasYear.add(cursorGas.getString(gasYearIndex))
+                }
+
+                while (cursorLight.moveToNext()) {
+                    listOfDayLight.add(cursorLight.getString(dayIndex))
+                    listOfNightLight.add(cursorLight.getString(nightIndex))
+                    listOfLightSum.add(cursorLight.getString(lightSumIndex))
+                    listOfLightMonth.add(cursorLight.getString(lightMonthIndex))
+                    listOfLightYear.add(cursorLight.getString(lightYearIndex))
+                }
+                cursorWater.close()
+                cursorGas.close()
+                cursorLight.close()
             }
-            string = builder.toString()
+
+            1 -> {
+                val cursorWater = db.rawQuery("SELECT ${WaterData.COLD}, ${WaterData.WARM}, " +
+                        "${WaterData.SUM}, ${WaterData.MONTH}, ${WaterData.YEAR} FROM ${WaterData.TABLE_NAME} WHERE ${WaterData.OBJECT} = ? AND " +
+                        "${WaterData.YEAR} = ? AND ${WaterData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Декабрь", "Январь", "Февраль"))
+
+
+                val cursorGas = db.rawQuery("SELECT ${GasData.VALUE}, ${GasData.SUM}, ${GasData.MONTH}, " +
+                        "${GasData.YEAR} FROM ${GasData.TABLE_NAME} WHERE ${GasData.OBJECT} = ? AND ${GasData.YEAR} = ? " +
+                        "AND ${GasData.MONTH} IN (?, ?, ?);", arrayOf(selected_object, year, "Декабрь", "Январь", "Февраль"))
+
+                val cursorLight = db.rawQuery("SELECT ${LightData.DAY}, ${LightData.NIGHT}, ${LightData.SUM}, " +
+                        "${LightData.MONTH}, ${LightData.YEAR} FROM ${LightData.TABLE_NAME} WHERE ${LightData.OBJECT} = ? AND " +
+                        "${LightData.YEAR} = ? AND ${LightData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Декабрь", "Январь", "Февраль"))
+
+                val coldIndex = cursorWater.getColumnIndex(WaterData.COLD)
+                val warmIndex = cursorWater.getColumnIndex(WaterData.WARM)
+                val waterSumIndex = cursorWater.getColumnIndex(WaterData.SUM)
+                val waterMonthIndex = cursorWater.getColumnIndex(WaterData.MONTH)
+                val waterYearIndex = cursorWater.getColumnIndex(WaterData.YEAR)
+
+                val gasIndex = cursorGas.getColumnIndex(GasData.VALUE)
+                val gasSumIndex = cursorGas.getColumnIndex(GasData.SUM)
+                val gasMonthIndex = cursorGas.getColumnIndex(GasData.MONTH)
+                val gasYearIndex = cursorGas.getColumnIndex(GasData.YEAR)
+
+                val dayIndex = cursorLight.getColumnIndex(LightData.DAY)
+                val nightIndex = cursorLight.getColumnIndex(LightData.NIGHT)
+                val lightSumIndex = cursorLight.getColumnIndex(LightData.SUM)
+                val lightMonthIndex = cursorLight.getColumnIndex(LightData.MONTH)
+                val lightYearIndex = cursorLight.getColumnIndex(LightData.YEAR)
+
+                while (cursorWater.moveToNext()) {
+                    listOFColdWater.add(cursorWater.getString(coldIndex))
+                    listOFWarmWater.add(cursorWater.getString(warmIndex))
+                    listOFWaterSum.add(cursorWater.getString(waterSumIndex))
+                    listOFWaterMonth.add(cursorWater.getString(waterMonthIndex))
+                    listOFWaterYear.add(cursorWater.getString(waterYearIndex))
+                }
+
+                while (cursorGas.moveToNext()) {
+                    listOFGasValues.add(cursorGas.getString(gasIndex))
+                    listOFGasSum.add(cursorGas.getString(gasSumIndex))
+                    listOFGasMonth.add(cursorGas.getString(gasMonthIndex))
+                    listOFGasYear.add(cursorGas.getString(gasYearIndex))
+                }
+
+                while (cursorLight.moveToNext()) {
+                    listOfDayLight.add(cursorLight.getString(dayIndex))
+                    listOfNightLight.add(cursorLight.getString(nightIndex))
+                    listOfLightSum.add(cursorLight.getString(lightSumIndex))
+                    listOfLightMonth.add(cursorLight.getString(lightMonthIndex))
+                    listOfLightYear.add(cursorLight.getString(lightYearIndex))
+                }
+                cursorWater.close()
+                cursorGas.close()
+                cursorLight.close()
+            }
+
+            2 -> {
+                val cursorWater = db.rawQuery("SELECT ${WaterData.COLD}, ${WaterData.WARM}, " +
+                        "${WaterData.SUM}, ${WaterData.MONTH}, ${WaterData.YEAR} FROM ${WaterData.TABLE_NAME} WHERE ${WaterData.OBJECT} = ? AND " +
+                        "${WaterData.YEAR} = ? AND ${WaterData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Март", "Апрель", "Май"))
+
+
+                val cursorGas = db.rawQuery("SELECT ${GasData.VALUE}, ${GasData.SUM}, ${GasData.MONTH}, " +
+                        "${GasData.YEAR} FROM ${GasData.TABLE_NAME} WHERE ${GasData.OBJECT} = ? AND ${GasData.YEAR} = ? " +
+                        "AND ${GasData.MONTH} IN (?, ?, ?);", arrayOf(selected_object, year, "Март", "Апрель", "Май"))
+
+                val cursorLight = db.rawQuery("SELECT ${LightData.DAY}, ${LightData.NIGHT}, ${LightData.SUM}, " +
+                        "${LightData.MONTH}, ${LightData.YEAR} FROM ${LightData.TABLE_NAME} WHERE ${LightData.OBJECT} = ? AND " +
+                        "${LightData.YEAR} = ? AND ${LightData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Март", "Апрель", "Май"))
+
+                val coldIndex = cursorWater.getColumnIndex(WaterData.COLD)
+                val warmIndex = cursorWater.getColumnIndex(WaterData.WARM)
+                val waterSumIndex = cursorWater.getColumnIndex(WaterData.SUM)
+                val waterMonthIndex = cursorWater.getColumnIndex(WaterData.MONTH)
+                val waterYearIndex = cursorWater.getColumnIndex(WaterData.YEAR)
+
+                val gasIndex = cursorGas.getColumnIndex(GasData.VALUE)
+                val gasSumIndex = cursorGas.getColumnIndex(GasData.SUM)
+                val gasMonthIndex = cursorGas.getColumnIndex(GasData.MONTH)
+                val gasYearIndex = cursorGas.getColumnIndex(GasData.YEAR)
+
+                val dayIndex = cursorLight.getColumnIndex(LightData.DAY)
+                val nightIndex = cursorLight.getColumnIndex(LightData.NIGHT)
+                val lightSumIndex = cursorLight.getColumnIndex(LightData.SUM)
+                val lightMonthIndex = cursorLight.getColumnIndex(LightData.MONTH)
+                val lightYearIndex = cursorLight.getColumnIndex(LightData.YEAR)
+
+                while (cursorWater.moveToNext()) {
+                    listOFColdWater.add(cursorWater.getString(coldIndex))
+                    listOFWarmWater.add(cursorWater.getString(warmIndex))
+                    listOFWaterSum.add(cursorWater.getString(waterSumIndex))
+                    listOFWaterMonth.add(cursorWater.getString(waterMonthIndex))
+                    listOFWaterYear.add(cursorWater.getString(waterYearIndex))
+                }
+
+                while (cursorGas.moveToNext()) {
+                    listOFGasValues.add(cursorGas.getString(gasIndex))
+                    listOFGasSum.add(cursorGas.getString(gasSumIndex))
+                    listOFGasMonth.add(cursorGas.getString(gasMonthIndex))
+                    listOFGasYear.add(cursorGas.getString(gasYearIndex))
+                }
+
+                while (cursorLight.moveToNext()) {
+                    listOfDayLight.add(cursorLight.getString(dayIndex))
+                    listOfNightLight.add(cursorLight.getString(nightIndex))
+                    listOfLightSum.add(cursorLight.getString(lightSumIndex))
+                    listOfLightMonth.add(cursorLight.getString(lightMonthIndex))
+                    listOfLightYear.add(cursorLight.getString(lightYearIndex))
+                }
+                cursorWater.close()
+                cursorGas.close()
+                cursorLight.close()
+            }
+
+            3 -> {
+                val cursorWater = db.rawQuery("SELECT ${WaterData.COLD}, ${WaterData.WARM}, " +
+                        "${WaterData.SUM}, ${WaterData.MONTH}, ${WaterData.YEAR} FROM ${WaterData.TABLE_NAME} WHERE ${WaterData.OBJECT} = ? AND " +
+                        "${WaterData.YEAR} = ? AND ${WaterData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Июнь", "Июль", "Август"))
+
+
+                val cursorGas = db.rawQuery("SELECT ${GasData.VALUE}, ${GasData.SUM}, ${GasData.MONTH}, " +
+                        "${GasData.YEAR} FROM ${GasData.TABLE_NAME} WHERE ${GasData.OBJECT} = ? AND ${GasData.YEAR} = ? " +
+                        "AND ${GasData.MONTH} IN (?, ?, ?);", arrayOf(selected_object, year, "Июнь", "Июль", "Август"))
+
+                val cursorLight = db.rawQuery("SELECT ${LightData.DAY}, ${LightData.NIGHT}, ${LightData.SUM}, " +
+                        "${LightData.MONTH}, ${LightData.YEAR} FROM ${LightData.TABLE_NAME} WHERE ${LightData.OBJECT} = ? AND " +
+                        "${LightData.YEAR} = ? AND ${LightData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Июнь", "Июль", "Август"))
+
+                val coldIndex = cursorWater.getColumnIndex(WaterData.COLD)
+                val warmIndex = cursorWater.getColumnIndex(WaterData.WARM)
+                val waterSumIndex = cursorWater.getColumnIndex(WaterData.SUM)
+                val waterMonthIndex = cursorWater.getColumnIndex(WaterData.MONTH)
+                val waterYearIndex = cursorWater.getColumnIndex(WaterData.YEAR)
+
+                val gasIndex = cursorGas.getColumnIndex(GasData.VALUE)
+                val gasSumIndex = cursorGas.getColumnIndex(GasData.SUM)
+                val gasMonthIndex = cursorGas.getColumnIndex(GasData.MONTH)
+                val gasYearIndex = cursorGas.getColumnIndex(GasData.YEAR)
+
+                val dayIndex = cursorLight.getColumnIndex(LightData.DAY)
+                val nightIndex = cursorLight.getColumnIndex(LightData.NIGHT)
+                val lightSumIndex = cursorLight.getColumnIndex(LightData.SUM)
+                val lightMonthIndex = cursorLight.getColumnIndex(LightData.MONTH)
+                val lightYearIndex = cursorLight.getColumnIndex(LightData.YEAR)
+
+                while (cursorWater.moveToNext()) {
+                    listOFColdWater.add(cursorWater.getString(coldIndex))
+                    listOFWarmWater.add(cursorWater.getString(warmIndex))
+                    listOFWaterSum.add(cursorWater.getString(waterSumIndex))
+                    listOFWaterMonth.add(cursorWater.getString(waterMonthIndex))
+                    listOFWaterYear.add(cursorWater.getString(waterYearIndex))
+                }
+
+                while (cursorGas.moveToNext()) {
+                    listOFGasValues.add(cursorGas.getString(gasIndex))
+                    listOFGasSum.add(cursorGas.getString(gasSumIndex))
+                    listOFGasMonth.add(cursorGas.getString(gasMonthIndex))
+                    listOFGasYear.add(cursorGas.getString(gasYearIndex))
+                }
+
+                while (cursorLight.moveToNext()) {
+                    listOfDayLight.add(cursorLight.getString(dayIndex))
+                    listOfNightLight.add(cursorLight.getString(nightIndex))
+                    listOfLightSum.add(cursorLight.getString(lightSumIndex))
+                    listOfLightMonth.add(cursorLight.getString(lightMonthIndex))
+                    listOfLightYear.add(cursorLight.getString(lightYearIndex))
+                }
+                cursorWater.close()
+                cursorGas.close()
+                cursorLight.close()
+            }
+
+            4 -> {
+                val cursorWater = db.rawQuery("SELECT ${WaterData.COLD}, ${WaterData.WARM}, " +
+                        "${WaterData.SUM}, ${WaterData.MONTH}, ${WaterData.YEAR} FROM ${WaterData.TABLE_NAME} WHERE ${WaterData.OBJECT} = ? AND " +
+                        "${WaterData.YEAR} = ? AND ${WaterData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Сентябрь", "Октябрь", "Ноябрь"))
+
+
+                val cursorGas = db.rawQuery("SELECT ${GasData.VALUE}, ${GasData.SUM}, ${GasData.MONTH}, " +
+                        "${GasData.YEAR} FROM ${GasData.TABLE_NAME} WHERE ${GasData.OBJECT} = ? AND ${GasData.YEAR} = ? " +
+                        "AND ${GasData.MONTH} IN (?, ?, ?);", arrayOf(selected_object, year, "Сентябрь", "Октябрь", "Ноябрь"))
+
+                val cursorLight = db.rawQuery("SELECT ${LightData.DAY}, ${LightData.NIGHT}, ${LightData.SUM}, " +
+                        "${LightData.MONTH}, ${LightData.YEAR} FROM ${LightData.TABLE_NAME} WHERE ${LightData.OBJECT} = ? AND " +
+                        "${LightData.YEAR} = ? AND ${LightData.MONTH} IN (?, ?, ?);", arrayOf(
+                    selected_object, year, "Сентябрь", "Октябрь", "Ноябрь"))
+
+                val coldIndex = cursorWater.getColumnIndex(WaterData.COLD)
+                val warmIndex = cursorWater.getColumnIndex(WaterData.WARM)
+                val waterSumIndex = cursorWater.getColumnIndex(WaterData.SUM)
+                val waterMonthIndex = cursorWater.getColumnIndex(WaterData.MONTH)
+                val waterYearIndex = cursorWater.getColumnIndex(WaterData.YEAR)
+
+                val gasIndex = cursorGas.getColumnIndex(GasData.VALUE)
+                val gasSumIndex = cursorGas.getColumnIndex(GasData.SUM)
+                val gasMonthIndex = cursorGas.getColumnIndex(GasData.MONTH)
+                val gasYearIndex = cursorGas.getColumnIndex(GasData.YEAR)
+
+                val dayIndex = cursorLight.getColumnIndex(LightData.DAY)
+                val nightIndex = cursorLight.getColumnIndex(LightData.NIGHT)
+                val lightSumIndex = cursorLight.getColumnIndex(LightData.SUM)
+                val lightMonthIndex = cursorLight.getColumnIndex(LightData.MONTH)
+                val lightYearIndex = cursorLight.getColumnIndex(LightData.YEAR)
+
+                while (cursorWater.moveToNext()) {
+                    listOFColdWater.add(cursorWater.getString(coldIndex))
+                    listOFWarmWater.add(cursorWater.getString(warmIndex))
+                    listOFWaterSum.add(cursorWater.getString(waterSumIndex))
+                    listOFWaterMonth.add(cursorWater.getString(waterMonthIndex))
+                    listOFWaterYear.add(cursorWater.getString(waterYearIndex))
+                }
+
+                while (cursorGas.moveToNext()) {
+                    listOFGasValues.add(cursorGas.getString(gasIndex))
+                    listOFGasSum.add(cursorGas.getString(gasSumIndex))
+                    listOFGasMonth.add(cursorGas.getString(gasMonthIndex))
+                    listOFGasYear.add(cursorGas.getString(gasYearIndex))
+                }
+
+                while (cursorLight.moveToNext()) {
+                    listOfDayLight.add(cursorLight.getString(dayIndex))
+                    listOfNightLight.add(cursorLight.getString(nightIndex))
+                    listOfLightSum.add(cursorLight.getString(lightSumIndex))
+                    listOfLightMonth.add(cursorLight.getString(lightMonthIndex))
+                    listOfLightYear.add(cursorLight.getString(lightYearIndex))
+                }
+                cursorWater.close()
+                cursorGas.close()
+                cursorLight.close()
+            }
         }
-        finally {
-            cursor.close()
+
+
+        val builder = StringBuilder()
+
+        listOFColdWater.forEachIndexed { index, s ->
+            builder.append("Данные за ${listOFWaterMonth[index]} ${listOFWaterYear[index]}-го\n")
+            builder.append("Вода:\n")
+            builder.append("Показания холодной: \t ${listOFColdWater[index]} куб \nПоказания горячей:" +
+                    "\t ${listOFWarmWater[index]} куб\n" +
+                    "Сумма: \t ${listOFWaterSum[index]} руб\n")
+            builder.append("Газ:\n")
+
+            var equalStringsGas: Boolean
+            var equalStringsLight: Boolean
+
+            try {
+                equalStringsGas = listOFWaterMonth[index] == listOFGasMonth[index]
+            }
+            catch (e: IndexOutOfBoundsException) {
+                Log.d("ShowData", e.toString() + "Список не содержит значений!")
+                equalStringsGas = false
+            }
+            if (equalStringsGas && listOFGasMonth.size != 0) {
+                builder.append("Значение газа: \t ${listOFGasValues[index]} куб\n" +
+                        "Сумма: \t ${listOFGasSum[index]} руб\n")
+            }
+            else {
+                builder.append("Отсутствуют данные по газу за данный месяц.\n")
+            }
+
+            try {
+                equalStringsLight = listOFWaterMonth[index] == listOfLightMonth[index]
+            }
+            catch (e: IndexOutOfBoundsException) {
+                Log.d("ShowData", e.toString() + "Список не содержит значений!")
+                equalStringsLight = false
+            }
+
+            builder.append("Свет:\n")
+
+            if (equalStringsLight && listOfLightMonth.size != 0) {
+                builder.append("Свет (день): \t ${listOfDayLight[index]} КВт\n" +
+                        "Свет (ночь): \t ${listOfNightLight[index]} КВт\n" +
+                        "Сумма: \t ${listOfLightSum[index]} руб\n")
+            }
+            else {
+                builder.append("Отсутствуют данные по свету за данный месяц. \n")
+            }
+
+            var equalsStringSum: Boolean
+
+            try {
+                equalsStringSum = equalStringsGas && equalStringsLight
+            }
+            catch (e: IndexOutOfBoundsException) {
+                Log.d("ShowData", "Ошибка в сравнении списков. Таблицы не равны.")
+                equalsStringSum = false
+            }
+
+            if (equalsStringSum){
+                builder.append("Итого (с учетом мусора и интернета): ")
+                val sum = (listOFWaterSum[index].toDouble() +
+                        listOFGasSum[index].toDouble() + listOfLightSum[index].toDouble() + internet + rubbish)
+                builder.append(sum.toString())
+                builder.append(" руб\n\n")
+            }
+            else {
+                builder.append("Невозможно посчитать сумму. Возникла ошибка!\n\n")
+            }
+
         }
+
+        string = builder.toString()
+
         return string
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val month = monthSpinner.selectedItemPosition
+        val year = yearSpinner.selectedItem
+
+        textView.text = showDatabase(context!!, month, year.toString())
+
     }
 }

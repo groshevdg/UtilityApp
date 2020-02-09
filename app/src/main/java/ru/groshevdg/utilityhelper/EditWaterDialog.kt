@@ -8,15 +8,19 @@ import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.snackbar.Snackbar
 import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract
-import ru.groshevdg.utilityhelper.ui.select_object.selected_object
 
-class EditWaterDialog(isWaterSplited: Boolean) : DialogFragment() {
+class EditWaterDialog(isWaterSplited: Boolean, button: Button, view: View) : DialogFragment() {
 
+    private val activityView = view
     private val enable = isWaterSplited
+    private val editButton = button
     private lateinit var builder: AlertDialog.Builder
     private lateinit var warmWaterEditText: EditText
     private lateinit var coldWaterEditText: EditText
@@ -25,29 +29,30 @@ class EditWaterDialog(isWaterSplited: Boolean) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         builder = AlertDialog.Builder(context)
-        builder.setTitle("Edit data")
-        builder.setMessage("Edit the last data water")
+        builder.setTitle(resources.getString(R.string.edit_data))
+        builder.setMessage(resources.getString(R.string.edit_water_data))
 
         val inflater = activity?.layoutInflater
         val view = inflater?.inflate(R.layout.edit_water_data, null)
         warmWaterEditText = view!!.findViewById(R.id.warm_water_new_value)
         coldWaterEditText = view.findViewById(R.id.cold_water_new_value)
-        sewerageEditText = view.findViewById(R.id.sewerage_new_value)
 
         warmWaterEditText.isEnabled = enable
 
         builder.setView(view)
-        builder.setPositiveButton("Apply")
+        builder.setPositiveButton(resources.getString(R.string.apply))
         {dialog, which ->  editWaterData(context!!, warmWaterEditText,
-            coldWaterEditText, sewerageEditText)}
+            coldWaterEditText)
+            editButton.isEnabled = false
+            Snackbar.make(activityView, resources.getString(R.string.data_changed), Snackbar.LENGTH_SHORT).show()
+        }
 
         builder.setNegativeButton(resources.getText(R.string.cancel)) {dialog, which ->  }
 
         return builder.create()
     }
 
-    private fun editWaterData(context: Context, warmET : EditText?, coldET: EditText?,
-                              sewerageET : EditText?) {
+    private fun editWaterData(context: Context, warmET : EditText?, coldET: EditText?) {
 
         val db = DBHelper(context).writableDatabase
         val cursor: Cursor
@@ -71,7 +76,6 @@ class EditWaterDialog(isWaterSplited: Boolean) : DialogFragment() {
         }
 
         val newValueOfColdWater = coldET?.text.toString()
-        val newValueOfSewerage = sewerageET?.text.toString()
 
         val contentValues = ContentValues()
 
@@ -80,9 +84,6 @@ class EditWaterDialog(isWaterSplited: Boolean) : DialogFragment() {
 
         if (coldWaterEditText.text.isNotEmpty())
             contentValues.put(UtilityContract.WaterData.COLD, newValueOfColdWater)
-
-        if (sewerageEditText.text.isNotEmpty())
-            contentValues.put(UtilityContract.WaterData.SEWERAGE, newValueOfSewerage)
 
         if (warmWaterEditText.text.isNotEmpty() && coldWaterEditText.text.isNotEmpty() &&
             sewerageEditText.text.isNotEmpty()) {

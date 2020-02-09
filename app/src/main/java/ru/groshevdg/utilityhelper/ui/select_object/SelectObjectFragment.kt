@@ -7,9 +7,10 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import ru.groshevdg.utilityhelper.R
-
-var selected_object: String = ""
+import ru.groshevdg.utilityhelper.selected_object
+import java.lang.StringBuilder
 
 class SelectObjectFragment : Fragment(), AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
@@ -42,7 +43,7 @@ class SelectObjectFragment : Fragment(), AdapterView.OnItemLongClickListener, Ad
 
         createNewObject = root.findViewById(R.id.create_object_btn)
         createNewObject.setOnClickListener()
-        { y -> switchObjectViewModel.showDialogForCreatingNewObject(fragmentManager) }
+        { y -> switchObjectViewModel.showDialogForCreatingNewObject(fragmentManager, root) }
 
         return root
     }
@@ -62,6 +63,11 @@ class SelectObjectFragment : Fragment(), AdapterView.OnItemLongClickListener, Ad
             adapter.clear()
             adapter = SelectObjectViewModel.fillAdapterFromDB(context)
             listOfSavedObjects.invalidateViews()
+            selected_object = ""
+            val navView = activity?.findViewById<NavigationView>(R.id.nav_view)
+            val mView = navView?.getHeaderView(0)
+            val selectedObjectTextView = mView?.findViewById<TextView>(R.id.selected_object)
+            selectedObjectTextView?.text = resources.getText(R.string.object_isnot_selected)
         }
         builder.create().show()
         return true
@@ -73,12 +79,9 @@ class SelectObjectFragment : Fragment(), AdapterView.OnItemLongClickListener, Ad
         val mView = navView?.getHeaderView(0)
         val selectedObjectTextView = mView?.findViewById<TextView>(R.id.selected_object)
 
-        val toast = Toast(context)
-        val toastView = layoutInflater.inflate(R.layout.toast_object_selected, null)
-        toast.view = toastView
-        toast.duration = Toast.LENGTH_SHORT
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0)
-        toast.show()
-        selectedObjectTextView?.text = "Выбран объект - ${selected_object}"
+        val selected: String  = resources.getString(R.string.selected_obj_is)
+
+        Snackbar.make(view!!, "$selected $selected_object", Snackbar.LENGTH_SHORT).show()
+        selectedObjectTextView?.text = "$selected\n$selected_object"
     }
 }

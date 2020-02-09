@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="180dp"
     android:background="@drawable/side_nav_bar"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -21,10 +21,10 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="108dp"
+            android:layout_width="80dp"
+            android:layout_height="88dp"
             android:contentDescription="@string/nav_header_desc"
-            android:src="@mipmap/electric_meter" />
+            android:src="@drawable/social_header" />
 
         <TextView
             android:layout_width="match_parent"

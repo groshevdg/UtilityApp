@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="320dp"
@@ -13,44 +14,73 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/last_value"
             android:layout_gravity="center_horizontal"
-            android:textSize="18sp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:text="@string/costs"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gas_title"
-            android:textSize="18sp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+            android:text="@string/gas_title"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="40dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textSize="18sp"
-            tools:text="28457 куб(ов)" />
+            tools:text="28457 куб(ов)"
+            android:id="@+id/cost_of_gas"/>
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_values"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="70dp"
+            android:text="@string/last_value"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="100dp"
+            android:text="@string/gas_title"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textSize="18sp"
-            android:layout_marginTop="70dp" />
+            tools:text="28457 куб(ов)"
+            android:id="@+id/last_gas_text_view"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="130dp"
+            android:text="@string/new_values"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="100dp">
+            android:layout_marginTop="160dp"
+            android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/gas_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -58,36 +88,39 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/gas"
-                android:inputType="textPersonName" />
+                android:inputType="numberDecimal" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="155dp">
+            android:layout_marginTop="210dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:text="@string/pay_for"
-                android:textSize="18sp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+                android:textSize="18sp" />
 
             <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:entries="@array/month"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:id="@+id/months_gas_spinner"/>
+
             <Spinner
                 android:layout_width="0dp"
-                android:layout_weight="2"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="2"
                 android:entries="@array/years"
                 android:gravity="center"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+                android:id="@+id/years_gas_spinner"/>
 
         </LinearLayout>
 
@@ -95,90 +128,52 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/to_pay"
             android:layout_gravity="center_horizontal"
-            android:textSize="18sp"
-            android:layout_marginTop="190dp" />
+            android:layout_marginTop="240dp"
+            android:text="@string/to_pay"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/water_pay"
-            android:textSize="18sp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="220dp" />
+            android:layout_marginTop="270dp"
+            android:text="@string/gas_title"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginTop="270dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textSize="18sp"
             tools:text="15"
-            android:layout_marginTop="220dp"/>
+            android:id="@+id/gas_to_pay_text_view"/>
 
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sewerage_title"
-            android:textSize="18sp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="250dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="250dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:textSize="18sp"
-            tools:text="15" />
-
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/summary"
-            android:textSize="18sp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="280dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="280dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:textSize="18sp"
-            tools:text="15" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/save_gas_btn"
+            style="@style/custom_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            style="@style/custom_button"
-            android:background="@drawable/custom_button"/>
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/custom_button"
+            android:text="@string/unaccessible"
+            android:enabled="false" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/edit_gas_btn"
+            style="@style/custom_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_last"
             android:layout_gravity="bottom|left"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            style="@style/custom_button"
-            android:background="@drawable/custom_button"/>
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/custom_button"
+            android:text="@string/edit_last" />
 
     </androidx.cardview.widget.CardView>
 </LinearLayout>

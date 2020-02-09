@@ -2,6 +2,7 @@ package ru.groshevdg.utilityhelper.ui.select_object
 
 import android.content.Context
 import android.database.Cursor
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
@@ -11,11 +12,12 @@ import ru.groshevdg.utilityhelper.R
 import ru.groshevdg.utilitypayhelper.CreateObjectDialog
 import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract
+import ru.groshevdg.utilityhelper.selected_object
 
 class SelectObjectViewModel : ViewModel() {
 
-    fun showDialogForCreatingNewObject(manager: FragmentManager?) {
-        val alertDialog = CreateObjectDialog()
+    fun showDialogForCreatingNewObject(manager: FragmentManager?, view: View) {
+        val alertDialog = CreateObjectDialog(view)
         alertDialog.isCancelable = false
         alertDialog.show(manager!!, "DialogForCreatingNewObject")
     }
@@ -66,7 +68,11 @@ class SelectObjectViewModel : ViewModel() {
 
         fun deleteObjectFromDB(context: Context?, id: Int) {
             val db = DBHelper(context).writableDatabase
-            db.delete(UtilityContract.AllObjects.TABLE_NAME, UtilityContract.AllObjects._ID + "=?", arrayOf(id.toString()))
+            db.delete(UtilityContract.AllObjects.TABLE_NAME, UtilityContract.AllObjects._ID + "= ?", arrayOf(id.toString()))
+            db.delete(UtilityContract.LightData.TABLE_NAME, UtilityContract.LightData.OBJECT + "= ?", arrayOf(
+                selected_object))
+            db.delete(UtilityContract.GasData.TABLE_NAME, UtilityContract.GasData.OBJECT + "= ?", arrayOf(selected_object))
+            db.delete(UtilityContract.WaterData.TABLE_NAME, UtilityContract.WaterData.OBJECT + "= ?", arrayOf(selected_object))
             SelectObjectFragment.adapter.clear()
             SelectObjectFragment.adapter = fillAdapterFromDB(context)
             SelectObjectFragment.adapter.notifyDataSetChanged()

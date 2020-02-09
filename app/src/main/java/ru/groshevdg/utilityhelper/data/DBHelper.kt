@@ -8,7 +8,7 @@ import ru.groshevdg.utilityhelper.data.UtilityContract.*
 class DBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         val DATABASE_NAME = "Utility.db"
-        val DATABASE_VERSION = 8
+        val DATABASE_VERSION = 15
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -22,7 +22,6 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 "${WaterData.OBJECT} TEXT NOT NULL, " +
                 "${WaterData.COLD} REAL NOT NULL, " +
                 "${WaterData.WARM} REAL NOT NULL DEFAULT 0, " +
-                "${WaterData.SEWERAGE} REAL NOT NULL, " +
                 "${WaterData.MONTH} TEXT NOT NULL, " +
                 "${WaterData.YEAR} TEXT NOT NULL, " +
                 "${WaterData.SUM} REAL NOT NULL);")
