@@ -10,11 +10,10 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import ru.groshevdg.utilityhelper.R
 import ru.groshevdg.utilityhelper.selected_object
-import java.lang.StringBuilder
 
 class SelectObjectFragment : Fragment(), AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
-    private lateinit var switchObjectViewModel: SelectObjectViewModel
+    private lateinit var switchObjectViewModel: SelectObjectLogic
     private lateinit var createNewObject: Button
     private lateinit var listOfSavedObjects: ListView
 
@@ -28,11 +27,11 @@ class SelectObjectFragment : Fragment(), AdapterView.OnItemLongClickListener, Ad
         savedInstanceState: Bundle?
     ): View? {
         switchObjectViewModel =
-            ViewModelProviders.of(this).get(SelectObjectViewModel::class.java)
+            ViewModelProviders.of(this).get(SelectObjectLogic::class.java)
 
         val root = inflater.inflate(R.layout.fragment_select_object, container, false)
 
-        adapter = SelectObjectViewModel.fillAdapterFromDB(context)
+        adapter = SelectObjectLogic.fillAdapterFromDB(context)
 
         listOfSavedObjects = root.findViewById(R.id.list_of_all_objects) as ListView
         listOfSavedObjects.adapter = adapter
@@ -58,10 +57,10 @@ class SelectObjectFragment : Fragment(), AdapterView.OnItemLongClickListener, Ad
         builder.setTitle(getString(R.string.title_accept_data_deleting))
         builder.setNegativeButton(R.string.cancel, null)
         builder.setPositiveButton(R.string.yes_answer) { dialog, which ->
-            val id = SelectObjectViewModel.mapPositionAndIdToDeleteObject.getValue(position)
-            SelectObjectViewModel.deleteObjectFromDB(activity, id)
+            val id = SelectObjectLogic.mapPositionAndIdToDeleteObject.getValue(position)
+            SelectObjectLogic.deleteObjectFromDB(activity, id)
             adapter.clear()
-            adapter = SelectObjectViewModel.fillAdapterFromDB(context)
+            adapter = SelectObjectLogic.fillAdapterFromDB(context)
             listOfSavedObjects.invalidateViews()
             selected_object = ""
             val navView = activity?.findViewById<NavigationView>(R.id.nav_view)

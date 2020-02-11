@@ -2,8 +2,6 @@ package ru.groshevdg.utilityhelper.ui.water
 
 import android.app.AlertDialog
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import ru.groshevdg.utilityhelper.EditWaterDialog
-import ru.groshevdg.utilityhelper.MainActivity
 import ru.groshevdg.utilityhelper.R
 import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract
@@ -27,7 +24,7 @@ import java.text.DecimalFormat
 
 class WaterFragment : Fragment(), TextWatcher {
 
-    private lateinit var viewModel: WaterViewModel
+    private lateinit var viewModel: WaterLogic
 
     private var lastColdWater: Double = 0.0
     private var lastWarmWater: Double = 0.0
@@ -68,7 +65,7 @@ class WaterFragment : Fragment(), TextWatcher {
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        viewModel = WaterViewModel()
+        viewModel = WaterLogic()
 
         listOfLastValues = viewModel.getLastValues(context!!)
 

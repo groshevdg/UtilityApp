@@ -14,7 +14,7 @@ import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract
 import ru.groshevdg.utilityhelper.selected_object
 
-class SelectObjectViewModel : ViewModel() {
+class SelectObjectLogic {
 
     fun showDialogForCreatingNewObject(manager: FragmentManager?, view: View) {
         val alertDialog = CreateObjectDialog(view)

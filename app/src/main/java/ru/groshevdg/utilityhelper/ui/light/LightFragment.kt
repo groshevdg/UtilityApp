@@ -49,7 +49,7 @@ class LightFragment : Fragment(), TextWatcher {
     private var sum: Double = 0.0
 
     private lateinit var preferences: SharedPreferences
-    private lateinit var viewModel: LightViewModel
+    private lateinit var viewModel: LightLogic
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +57,7 @@ class LightFragment : Fragment(), TextWatcher {
         savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_light, null)
-        viewModel = LightViewModel()
+        viewModel = LightLogic()
 
         listOfLightData = viewModel.getLastDataOfLight(context!!)
 

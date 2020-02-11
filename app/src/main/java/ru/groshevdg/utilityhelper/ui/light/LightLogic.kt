@@ -7,7 +7,7 @@ import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract.LightData
 import ru.groshevdg.utilityhelper.selected_object
 
-class LightViewModel : ViewModel() {
+class LightLogic {
 
     fun getLastDataOfLight(context: Context) : List<String> {
 

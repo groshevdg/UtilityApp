@@ -3,13 +3,11 @@ package ru.groshevdg.utilityhelper.ui.water
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
-import androidx.lifecycle.ViewModel
 import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract
 import ru.groshevdg.utilityhelper.selected_object
 
-class WaterViewModel : ViewModel() {
+class WaterLogic {
     private lateinit var cursor: Cursor
 
     fun saveWaterData(context: Context, currentObject: String, coldWater: String, warmWater: String?,

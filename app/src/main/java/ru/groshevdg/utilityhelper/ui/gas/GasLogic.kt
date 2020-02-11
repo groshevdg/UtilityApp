@@ -2,12 +2,11 @@ package ru.groshevdg.utilityhelper.ui.gas
 
 import android.content.ContentValues
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract.GasData
 import ru.groshevdg.utilityhelper.selected_object
 
-class GasViewModel : ViewModel() {
+class GasLogic {
 
     fun getLastGasValue(context: Context) : String {
 

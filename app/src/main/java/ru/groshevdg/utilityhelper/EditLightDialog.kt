@@ -14,8 +14,8 @@ import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract.LightData
 
 class EditLightDialog(button: Button, view: View) : DialogFragment() {
-    val editButton = button
-    val activityView = view
+    private val editButton = button
+    private val activityView = view
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 

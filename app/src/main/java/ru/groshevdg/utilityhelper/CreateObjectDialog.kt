@@ -11,13 +11,13 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import ru.groshevdg.utilityhelper.R
 import ru.groshevdg.utilityhelper.ui.select_object.SelectObjectFragment
-import ru.groshevdg.utilityhelper.ui.select_object.SelectObjectViewModel
+import ru.groshevdg.utilityhelper.ui.select_object.SelectObjectLogic
 import ru.groshevdg.utilityhelper.data.DBHelper
 import ru.groshevdg.utilityhelper.data.UtilityContract
 
 class CreateObjectDialog(view: View) : DialogFragment() {
 
-    val appView = view
+    private val appView = view
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity!!)
@@ -58,6 +58,6 @@ class CreateObjectDialog(view: View) : DialogFragment() {
         values.put(UtilityContract.AllObjects.CURRENT_OBJECT, editedText?.text.toString())
         db.insert(UtilityContract.AllObjects.TABLE_NAME, null, values)
         SelectObjectFragment.adapter.clear()
-        SelectObjectFragment.adapter = SelectObjectViewModel.fillAdapterFromDB(context)
+        SelectObjectFragment.adapter = SelectObjectLogic.fillAdapterFromDB(context)
     }
 }

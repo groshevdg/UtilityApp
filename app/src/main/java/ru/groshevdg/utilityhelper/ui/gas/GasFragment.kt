@@ -30,7 +30,7 @@ class GasFragment : Fragment(), TextWatcher {
     private lateinit var gasEditText: EditText
 
     private lateinit var preferences: SharedPreferences
-    private lateinit var viewModel: GasViewModel
+    private lateinit var viewModel: GasLogic
 
     private var lastGasValue: Double = 0.0
     private var costOfGas: Double = 0.0
@@ -53,7 +53,7 @@ class GasFragment : Fragment(), TextWatcher {
         preferences = PreferenceManager.getDefaultSharedPreferences(context)
         costOfGas = preferences.getString("cost_gas", "0.0")!!.toDouble()
 
-        viewModel = GasViewModel()
+        viewModel = GasLogic()
 
         lastGasValue = viewModel.getLastGasValue(context!!).toDouble()
 
