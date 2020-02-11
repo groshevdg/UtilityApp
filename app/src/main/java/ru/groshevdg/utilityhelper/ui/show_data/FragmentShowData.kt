@@ -64,7 +64,6 @@ class FragmentShowData : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun showDatabase(context: Context, month: Int, year: String): String {
         val db = DBHelper(context).readableDatabase
-        val a = 1;
 
         val listOFColdWater: MutableList<String> = mutableListOf()
         val listOFWarmWater: MutableList<String> = mutableListOf()
